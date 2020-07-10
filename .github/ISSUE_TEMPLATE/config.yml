@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Need help with your integration?
+    url: https://webchat.freenode.net/#stripe
+    about: Ask questions in our technical chat on IRC.

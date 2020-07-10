@@ -1,0 +1,115 @@
+body {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  margin: 0;
+}
+
+header {
+  background: #039be5;
+  padding: 1rem 5vw;
+}
+
+header a {
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+main {
+  display: none;
+  margin: 4rem auto 6rem;
+  max-width: 650px;
+  width: 90vw;
+}
+
+#firebaseui-auth-container {
+  font-weight: 800;
+  margin: 4rem auto 6rem;
+  max-width: 650px;
+  width: 90vw;
+}
+
+footer {
+  color: #444;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+footer a {
+  color: inherit;
+}
+
+.products {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 3rem;
+}
+
+.product img {
+  width: 300px;
+}
+
+.product input {
+  border: 1px solid #039be5;
+  border-radius: 0.25rem;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+  padding: 0.25rem;
+}
+
+button {
+  display: block;
+  cursor: pointer;
+  background: #fbc02e;
+  border: none;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25rem;
+  margin-top: 0.25rem;
+  padding: 0.25rem;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+select {
+  transition: box-shadow 0.2s ease;
+  background: none;
+  border: 5px solid #fbc02e;
+  font-size: 1.25rem;
+}
+
+label {
+  display: block;
+}
+
+#subscribe,
+#my-subscription {
+  display: none;
+}
+
+/* Test card number */
+.test-card-notice {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.card-number {
+  display: inline;
+  white-space: nowrap;
+  font-family: Menlo, Consolas, monospace;
+  color: #3c4257;
+  font-weight: 500;
+}
+.card-number span {
+  display: inline-block;
+  width: 4px;
+}
