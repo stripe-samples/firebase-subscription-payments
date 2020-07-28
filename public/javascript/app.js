@@ -118,7 +118,7 @@ function startDataListeners() {
   db.collection('customers')
     .doc(currentUser)
     .collection('subscriptions')
-    .where('status', '==', 'active')
+    .where('status', 'in', ['trialing', 'active'])
     .onSnapshot(async (snapshot) => {
       if (snapshot.empty) {
         // Show products
