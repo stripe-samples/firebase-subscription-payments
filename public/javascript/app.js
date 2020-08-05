@@ -162,8 +162,13 @@ async function subscribe(event) {
     .collection('checkout_sessions')
     .add({
       price: formData.get('price'),
+      allow_promotion_codes: true,
+      tax_rates: ['txr_1HCshzHYgolSBA35WkPjzOOi'],
       success_url: window.location.origin,
       cancel_url: window.location.origin,
+      metadata: {
+        tax_rate: '10% sales tax exclusive',
+      },
     });
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
