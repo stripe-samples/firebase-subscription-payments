@@ -35,12 +35,14 @@ npm install -g firebase-tools
 
 - In the [/public/javascript/app.js](/public/javascript/app.js) file set your
   - `STRIPE_PUBLISHABLE_KEY` from the [Stripe Dashboard](https://dashboard.stripe.com/apikeys).
+  - `taxRates` array from the [Stripe Dashboard](https://dashboard.stripe.com/tax-rates).
   - `firebaseConfig` object from your Firebase console project settings.
+  - `functionLocation` from your Cloud Functions location setting.
 
 ## Run locally
 
 ```bash
-firebase serve
+firebase serve --project {your Firebase project name}
 # or
 npm run dev
 ```
