@@ -2,6 +2,10 @@
 // https://dashboard.stripe.com/apikeys
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_NzVWw6MB7fN3HSeAvVnyf5tx00hTu3Ukrk';
 
+// Replace with your tax ids
+// https://dashboard.stripe.com/tax-rates
+const taxRates = ['txr_1HCshzHYgolSBA35WkPjzOOi']
+
 // Replace with your Firebase project config.
 const firebaseConfig = {
   apiKey: 'AIzaSyAEGmffBNUsVrdVS_iyiI4eUMOWWp4Q5dI',
@@ -12,6 +16,9 @@ const firebaseConfig = {
   messagingSenderId: '955066520266',
   appId: '1:955066520266:web:ec7135a76fea7a1bce9a33',
 };
+
+// Replace with your cloud functions location
+const functionLocation = 'us-east1'
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -163,7 +170,7 @@ async function subscribe(event) {
     .add({
       price: formData.get('price'),
       allow_promotion_codes: true,
-      tax_rates: ['txr_1HCshzHYgolSBA35WkPjzOOi'],
+      tax_rates: taxRates,
       success_url: window.location.origin,
       cancel_url: window.location.origin,
       metadata: {
@@ -191,7 +198,7 @@ document
     // Call billing portal function
     const functionRef = firebase
       .app()
-      .functions('us-east1')
+      .functions(functionLocation)
       .httpsCallable('ext-firestore-stripe-subscriptions-createPortalLink');
     const { data } = await functionRef({ returnUrl: window.location.origin });
     window.location.assign(data.url);
