@@ -1,3 +1,5 @@
+/* global firebase, firebaseui, Stripe */
+
 /**
  * Replace with your publishable key from the Stripe Dashboard
  * https://dashboard.stripe.com/apikeys
@@ -23,6 +25,7 @@ const firebaseConfig = {
  */
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
+let currentUser;
 
 /**
  * Firebase Authentication configuration
