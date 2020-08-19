@@ -45,10 +45,7 @@ const firebaseUiConfig = {
   },
   signInFlow: 'popup',
   signInSuccessUrl: '/',
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  ],
+  signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   // Your terms of service url.
   tosUrl: 'https://example.com/terms',
