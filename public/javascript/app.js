@@ -4,7 +4,7 @@ const STRIPE_PUBLISHABLE_KEY = 'pk_test_NzVWw6MB7fN3HSeAvVnyf5tx00hTu3Ukrk';
 
 // Replace with your tax ids
 // https://dashboard.stripe.com/tax-rates
-const taxRates = ['txr_1HCshzHYgolSBA35WkPjzOOi']
+const taxRates = ['txr_1HCshzHYgolSBA35WkPjzOOi'];
 
 // Replace with your Firebase project config.
 const firebaseConfig = {
@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 // Replace with your cloud functions location
-const functionLocation = 'us-east1'
+const functionLocation = 'us-east1';
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -160,7 +160,7 @@ document
 // Checkout handler
 async function subscribe(event) {
   event.preventDefault();
-  event.target.querySelector('button').disabled = true;
+  document.querySelectorAll('button').forEach((b) => (b.disabled = true));
   const formData = new FormData(event.target);
 
   const docRef = await db
@@ -179,7 +179,12 @@ async function subscribe(event) {
     });
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
-    const { sessionId } = snap.data();
+    const { error, sessionId } = snap.data();
+    if (error) {
+      // Show an error to your customer and then inspect your function logs.
+      alert(`An error occured: ${error.message}`);
+      document.querySelectorAll('button').forEach((b) => (b.disabled = false));
+    }
     if (sessionId) {
       // We have a session, let's redirect to Checkout
       // Init Stripe
@@ -193,7 +198,7 @@ async function subscribe(event) {
 document
   .querySelector('#billing-portal-button')
   .addEventListener('click', async (event) => {
-    event.target.disabled = true;
+    document.querySelectorAll('button').forEach((b) => (b.disabled = true));
 
     // Call billing portal function
     const functionRef = firebase
