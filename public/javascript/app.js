@@ -90,7 +90,7 @@ function startDataListeners() {
 
         container.querySelector('h2').innerText = product.name.toUpperCase();
         container.querySelector('.description').innerText =
-          product.description.toUpperCase() || '';
+          product.description?.toUpperCase() || '';
         // Prices dropdown
         priceSnap.docs.forEach((doc) => {
           const priceId = doc.id;
