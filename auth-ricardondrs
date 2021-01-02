@@ -1,24 +1,24 @@
 // Replace with your publishable key
 // https://dashboard.stripe.com/apikeys
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_NzVWw6MB7fN3HSeAvVnyf5tx00hTu3Ukrk';
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_FGHiygCR4kqGeuvyc2cUp5VA00NKucJ9cJ';
 
 // Replace with your tax ids
 // https://dashboard.stripe.com/tax-rates
-const taxRates = ['txr_1HCshzHYgolSBA35WkPjzOOi'];
+const taxRates = ['txr_1I0Uh8B1jLb0OrLQbIDU52OT'];
 
 // Replace with your Firebase project config.
 const firebaseConfig = {
-  apiKey: 'AIzaSyAEGmffBNUsVrdVS_iyiI4eUMOWWp4Q5dI',
-  authDomain: 'stripe-subs-ext.firebaseapp.com',
-  databaseURL: 'https://stripe-subs-ext.firebaseio.com',
-  projectId: 'stripe-subs-ext',
-  storageBucket: 'stripe-subs-ext.appspot.com',
-  messagingSenderId: '955066520266',
-  appId: '1:955066520266:web:ec7135a76fea7a1bce9a33',
+  apiKey: 'AIzaSyDzoGukRyDU9ikqq-Ef1NCymqfyN7Ehj0E',
+  authDomain: 'slices-firebase.firebaseapp.com',
+  databaseURL: 'https://slices-firebase.firebaseio.com',
+  projectId: 'slices-firebase',
+  storageBucket: 'slices-firebase.appspot.com',
+  messagingSenderId: '964941913667',
+  appId: '1:964941913667:web:482f04a4ce798c2bff3ef6',
 };
 
 // Replace with your cloud functions location
-const functionLocation = 'us-east1';
+const functionLocation = 'europe-west3';
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -48,9 +48,9 @@ const firebaseUiConfig = {
   ],
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   // Your terms of service url.
-  tosUrl: 'https://example.com/terms',
+  tosUrl: 'https://slices.webflow.io/log-in',
   // Your privacy policy url.
-  privacyPolicyUrl: 'https://example.com/privacy',
+  privacyPolicyUrl: 'https://slices.webflow.io/log-in',
 };
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
@@ -139,7 +139,7 @@ function startDataListeners() {
       const priceData = (await subscription.price.get()).data();
       document.querySelector(
         '#my-subscription p'
-      ).textContent = `You are paying ${new Intl.NumberFormat('en-US', {
+      ).textContent = `You are paying €{new Intl.NumberFormat('es-ES', {
         style: 'currency',
         currency: priceData.currency,
       }).format((priceData.unit_amount / 100).toFixed(2))} per ${
@@ -174,7 +174,7 @@ async function subscribe(event) {
       success_url: window.location.origin,
       cancel_url: window.location.origin,
       metadata: {
-        tax_rate: '10% sales tax exclusive',
+        tax_rate: '21% IVA',
       },
     });
   // Wait for the CheckoutSession to get attached by the extension
