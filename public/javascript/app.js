@@ -95,6 +95,11 @@ function startDataListeners() {
         priceSnap.docs.forEach((doc) => {
           const priceId = doc.id;
           const priceData = doc.data();
+          if (!priceData.active) {
+            console.log('Skip inactive price data (e.g. archived).');
+            return;
+          }
+
           const content = document.createTextNode(
             `${new Intl.NumberFormat('en-US', {
               style: 'currency',
