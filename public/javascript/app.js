@@ -4,7 +4,9 @@ const STRIPE_PUBLISHABLE_KEY = 'pk_test_NzVWw6MB7fN3HSeAvVnyf5tx00hTu3Ukrk';
 
 // Replace with your tax ids
 // https://dashboard.stripe.com/tax-rates
-const taxRates = ['txr_1HCshzHYgolSBA35WkPjzOOi'];
+const taxRates = ['txr_1IJJtvHYgolSBA35ITTBOaew'];
+
+const prices = {};
 
 // Replace with your Firebase project config.
 const firebaseConfig = {
@@ -78,6 +80,7 @@ function startDataListeners() {
       querySnapshot.forEach(async function (doc) {
         const priceSnap = await doc.ref
           .collection('prices')
+          .where('active', '==', true)
           .orderBy('unit_amount')
           .get();
         if (!'content' in document.createElement('template')) {
@@ -95,6 +98,7 @@ function startDataListeners() {
         priceSnap.docs.forEach((doc) => {
           const priceId = doc.id;
           const priceData = doc.data();
+          prices[priceId] = priceData;
           const content = document.createTextNode(
             `${new Intl.NumberFormat('en-US', {
               style: 'currency',
@@ -162,19 +166,26 @@ async function subscribe(event) {
   event.preventDefault();
   document.querySelectorAll('button').forEach((b) => (b.disabled = true));
   const formData = new FormData(event.target);
+  const selectedPrice = {
+    price: formData.get('price'),
+    dynamic_tax_rates: taxRates,
+  };
+  // For prices with metered billing we need to omit the quantity parameter.
+  // For all other prices we set quantity to 1.
+  if (prices[selectedPrice.price]?.recurring?.usage_type !== 'metered')
+    selectedPrice.quantity = 1;
 
   const docRef = await db
     .collection('customers')
     .doc(currentUser)
     .collection('checkout_sessions')
     .add({
-      price: formData.get('price'),
       allow_promotion_codes: true,
-      tax_rates: taxRates,
+      line_items: [selectedPrice],
       success_url: window.location.origin,
       cancel_url: window.location.origin,
       metadata: {
-        tax_rate: '10% sales tax exclusive',
+        key: 'value',
       },
     });
   // Wait for the CheckoutSession to get attached by the extension
