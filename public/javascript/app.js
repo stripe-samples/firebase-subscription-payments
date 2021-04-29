@@ -168,7 +168,6 @@ async function subscribe(event) {
   const formData = new FormData(event.target);
   const selectedPrice = {
     price: formData.get('price'),
-    dynamic_tax_rates: taxRates,
   };
   // For prices with metered billing we need to omit the quantity parameter.
   // For all other prices we set quantity to 1.
@@ -180,6 +179,7 @@ async function subscribe(event) {
     .doc(currentUser)
     .collection('checkout_sessions')
     .add({
+      tax_rates: taxRates,
       allow_promotion_codes: true,
       line_items: [selectedPrice],
       success_url: window.location.origin,
