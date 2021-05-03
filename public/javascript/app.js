@@ -104,7 +104,7 @@ function startDataListeners() {
               style: 'currency',
               currency: priceData.currency,
             }).format((priceData.unit_amount / 100).toFixed(2))} per ${
-              priceData.interval
+              priceData.interval ?? 'once'
             }`
           );
           const option = document.createElement('option');
@@ -173,21 +173,26 @@ async function subscribe(event) {
   // For all other prices we set quantity to 1.
   if (prices[selectedPrice.price]?.recurring?.usage_type !== 'metered')
     selectedPrice.quantity = 1;
+  const checkoutSession = {
+    collect_shipping_address: true,
+    tax_rates: taxRates,
+    allow_promotion_codes: true,
+    line_items: [selectedPrice],
+    success_url: window.location.origin,
+    cancel_url: window.location.origin,
+    metadata: {
+      key: 'value',
+    },
+  };
+  // For one time payments set mode to payment.
+  if (prices[selectedPrice.price]?.type === 'one_time')
+    checkoutSession.mode = 'payment';
 
   const docRef = await db
     .collection('customers')
     .doc(currentUser)
     .collection('checkout_sessions')
-    .add({
-      tax_rates: taxRates,
-      allow_promotion_codes: true,
-      line_items: [selectedPrice],
-      success_url: window.location.origin,
-      cancel_url: window.location.origin,
-      metadata: {
-        key: 'value',
-      },
-    });
+    .add(checkoutSession);
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
     const { error, sessionId } = snap.data();
