@@ -1,11 +1,3 @@
-// Replace with your publishable key
-// https://dashboard.stripe.com/apikeys
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_NzVWw6MB7fN3HSeAvVnyf5tx00hTu3Ukrk';
-
-// Replace with your tax ids
-// https://dashboard.stripe.com/tax-rates
-const taxRates = ['txr_1IJJtvHYgolSBA35ITTBOaew'];
-
 const prices = {};
 
 // Replace with your Firebase project config.
@@ -174,8 +166,9 @@ async function subscribe(event) {
   if (prices[selectedPrice.price]?.recurring?.usage_type !== 'metered')
     selectedPrice.quantity = 1;
   const checkoutSession = {
+    automatic_tax: true,
+    tax_id_collection: true,
     collect_shipping_address: true,
-    tax_rates: taxRates,
     allow_promotion_codes: true,
     line_items: [selectedPrice],
     success_url: window.location.origin,
@@ -185,8 +178,10 @@ async function subscribe(event) {
     },
   };
   // For one time payments set mode to payment.
-  if (prices[selectedPrice.price]?.type === 'one_time')
+  if (prices[selectedPrice.price]?.type === 'one_time') {
     checkoutSession.mode = 'payment';
+    checkoutSession.payment_method_types = ['card', 'sepa_debit', 'sofort'];
+  }
 
   const docRef = await db
     .collection('customers')
@@ -195,17 +190,14 @@ async function subscribe(event) {
     .add(checkoutSession);
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
-    const { error, sessionId } = snap.data();
+    const { error, url } = snap.data();
     if (error) {
       // Show an error to your customer and then inspect your function logs.
       alert(`An error occured: ${error.message}`);
       document.querySelectorAll('button').forEach((b) => (b.disabled = false));
     }
-    if (sessionId) {
-      // We have a session, let's redirect to Checkout
-      // Init Stripe
-      const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-      stripe.redirectToCheckout({ sessionId });
+    if (url) {
+      window.location.assign(url);
     }
   });
 }
