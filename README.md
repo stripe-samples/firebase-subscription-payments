@@ -15,9 +15,6 @@ This is an example web client for usage with the [Stripe Subscriptions Firebase 
 
 The design for Stripe Checkout and the customer portal can be customized in your Stripe Dashboard [branding settings](https://dashboard.stripe.com/settings/branding). See this example which is customized to match the Firebase color scheme:
 
-![Stripe Checkout Page](https://storage.googleapis.com/stripe-subscriptions-firebase-screenshots/firebase-stripe-subs-checkout.png)
-![Stripe Customer Portal](https://storage.googleapis.com/stripe-subscriptions-firebase-screenshots/firebase-stripe-subs-customer-portal.png)
-
 ## Setup
 
 If you haven't already, [install the Firebase CLI](https://firebase.google.com/docs/cli):
